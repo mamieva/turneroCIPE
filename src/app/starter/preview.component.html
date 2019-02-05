@@ -1,0 +1,169 @@
+<h1 mat-dialog-title>Acta Nº
+  <b>{{data.certificateNumber}}</b>
+</h1>
+<div mat-dialog-content>
+  <div fxLayoutWrap="wrap" fxLayout="row" fxLayoutAlign="start start" style="font-size: 12px;">
+    <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+      Tipo de Acta
+    </span>
+    <span fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="55">
+      {{data.certificateTypeCode}}
+    </span>
+    <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+      Nº Tomo
+    </span>
+    <span fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="55">
+      {{data.volume.volumeNumber}}
+    </span>
+    <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+      Nº Folio
+    </span>
+    <span fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="55">
+      {{data.folioNumber}}
+    </span>
+    <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+      Nº Acta
+    </span>
+    <span fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="55">
+      {{data.certificateNumber}}
+    </span>
+    <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+      Seccional
+    </span>
+    <span fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="55">
+      {{data.office.name}}
+    </span>
+    <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+      Oficina
+    </span>
+    <span fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="55">
+      {{data.office.name}}
+    </span>
+    <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+      Año
+    </span>
+    <span fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="55">
+      {{data.year}}
+    </span>
+    <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+      Fecha de Carga
+    </span>
+    <span fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="55">
+      {{data.date | date: 'dd/MM/yyyy'}}
+    </span>
+    <span *ngIf="data.operatorSign && data.operatorSign.person" fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+      Operador de Firma
+    </span>
+    <span *ngIf="data.operatorSign && data.operatorSign.person" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="55">
+      {{data.operatorSign.person.lastName + ', ' + data.operatorSign.person.firstName}}
+    </span>
+  </div>
+  <div *ngFor="let item of data.people;" fxLayoutWrap="wrap" fxLayout="row" fxLayoutAlign="start start" style="font-size: 12px; margin-top:10px">
+    <span fxFlex.gt-sm="95" fxFlex.gt-xs="95" fxFlex="95" style="font-size: 14px; font-weight: bold;">{{item.actorType.name}}</span>
+    <span fxFlex.gt-sm="95" fxFlex.gt-xs="95" fxFlex="95" *ngIf="item.actorType.relationship && item.actorType.relationship.name"
+      style="font-size: 12px; font-weight: bold;">Obra en virtud de ser {{item.actorType.relationship.name}}</span>
+    <!-- <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+    </span> -->
+    <span fxFlex.gt-sm="95" fxFlex.gt-xs="95" fxFlex="95" style="margin-top: 5px">
+      {{item.person.lastName + ', ' + item.person.firstName}}
+    </span>
+    <span *ngIf="item.person.docNumber" fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+      {{item.person.docType.name}}
+    </span>
+    <span *ngIf="item.person.docNumber" fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45">
+      {{item.person.docNumber}}
+    </span>
+    <span *ngIf="item.person.birth.birthDay" fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+      Fecha de Nacimiento
+    </span>
+    <span *ngIf="item.person.birth.birthDay" fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45">
+      {{item.person.birth.birthDay | date: 'dd/MM/yyyy'}}
+    </span>
+    <ng-container *ngIf="item.person.birth.birthDayInscription">
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+        Hora de Nacimiento
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45">
+        {{item.person.birth.birthHour}}
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+        Según Certificado de
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45">
+        {{item.person.birth.birthNameDoctor}}
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+        Matricula
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45">
+        {{item.person.birth.birthRegistrationDoctor}}
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+        Fecha de Inscripción
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45">
+        {{item.person.birth.birthDayInscription | date: 'dd/MM/yyyy'}}
+      </span>
+    </ng-container>
+    <ng-container *ngIf="item.person.death.deathDayInscription">
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+        Fecha de Defunción
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45">
+        {{item.person.death.deathDay | date: 'dd/MM/yyyy'}}
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+        Hora de Defunción
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45">
+        {{item.person.death.deathHour}}
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+        Causa de Defunción
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45">
+        {{item.person.death.deathCause}}
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+        Según Certificado de
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45">
+        {{item.person.death.deathNameDoctor}}
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+        Matricula
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45">
+        {{item.person.death.deathRegistrationDoctor}}
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45" class="dialog-list">
+        Fecha de Inscripción de Defunción
+      </span>
+      <span fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45">
+        {{item.person.death.deathDayInscription | date: 'dd/MM/yyyy'}}
+      </span>
+    </ng-container>
+
+  </div>
+
+  <span *ngIf="data.marginals.length > 0" style="display: block;font-size: 14px; font-weight: bold; margin-top:10px">
+    Marginales
+  </span>
+  <div *ngFor="let item of data.marginals; let i = index;" style="font-size: 12px;">
+    <span fxFlex.gt-sm="95" fxFlex.gt-xs="95" fxFlex="95">
+      {{i + 1 + '. ' + item.sentence}}
+    </span>
+  </div>
+  <span *ngIf="data.observation" style="display: block;font-size: 14px; font-weight: bold; margin-top:10px">
+    Observaciones
+  </span>
+  <div style="font-size: 12px;">
+    <span fxFlex.gt-sm="95" fxFlex.gt-xs="95" fxFlex="95">
+      {{data.observation}}
+    </span>
+  </div>
+</div>
+<div mat-dialog-actions fxLayoutAlign="end center">
+  <!-- <button mat-button (click)="onNoClick()">No Thanks</button> -->
+  <button mat-button [mat-dialog-close]="data.id" cdkFocusInitial>Cerrar</button>
+</div>

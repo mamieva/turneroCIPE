@@ -1,0 +1,26 @@
+<div fxLayout="row" fxLayoutWrap="wrap">
+  <!-- column -->
+  <div fxFlexOffset="25" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-header fxLayoutAlign="center end">
+        <mat-card-title fxLayoutAlign="center end">Identificarse</mat-card-title>
+        <mat-card-subtitle>Ingrese su Usuario y Contraseña</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form class="example-form">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="usuario" name="user" [(ngModel)]="model.user" value="Sushi">
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <input matInput type="password" name="pass" [(ngModel)]="model.password" placeholder="contraseña" value="Sushi">
+          </mat-form-field>
+          <div fxLayoutAlign="end end">
+            <button (click)="login()" mat-raised-button color="primary">Ingresar</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!-- column -->
+</div>

@@ -1,0 +1,118 @@
+<!-- ============================================================== -->
+<!-- Simple four boxes Row -->
+<!-- ============================================================== -->
+<div style="width:100%;" fxLayout="row" fxLayoutWrap="wrap">
+  <img style="height:75px;width:100%;" src="../../assets/images/Encabezado.png" alt="">
+</div>
+<div fxLayout="column" fxLayoutWrap="wrap">
+  <!-- column -->
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-between start">
+    <mat-card fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <mat-card-content fxLayoutAlign="space-between end">
+        <span>
+          <b>Centro de Emisión: </b> {{office ? office.officeName : 'San Luis'}}
+        </span>
+        <span>
+          <b>Fecha y Hora :</b> {{fecha | date: 'dd/MM/yyy HH:mm:ss'}}
+        </span>
+        <span>
+          <b>Operador: </b> {{user ? user.user : 'San Luis'}}
+        </span>
+        <span>
+          <b>Box: </b> {{box ? box : 'San Luis'}}
+        </span>
+        <span>
+          <button mat-stroked-button (click)="logout()">Cerrar Sesión</button>
+        </span>
+      </mat-card-content>
+    </mat-card>
+    <mat-card fxFlex.gt-sm="49" fxFlex.gt-xs="49" fxFlex="49" style="margin:0;">
+      <mat-card-content>
+        Turnos a Tomar
+      </mat-card-content>
+
+      <div style="width: 100%" class="example-container">
+        <mat-table #table style="max-height: 300px;" [dataSource]="dataSourceATomar">
+          <!-- Name Column -->
+          <ng-container matColumnDef="Turno">
+            <mat-header-cell *matHeaderCellDef> Nº Turno </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.turnId}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Hora">
+            <mat-header-cell *matHeaderCellDef> Hora </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.dateTime | date: 'HH:mm'}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Nombre">
+            <mat-header-cell *matHeaderCellDef> Apellido y Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.lastName + ', ' +
+              element.firstName}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Tipo">
+            <mat-header-cell *matHeaderCellDef> Tipo de Trámite </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.recordType}} </mat-cell>
+          </ng-container>
+          <!-- <ng-container matColumnDef="Numero">
+            <mat-header-cell *matHeaderCellDef> Nº de Trámite </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 10px"> {{element.recordId}} </mat-cell>
+          </ng-container> -->
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
+            <mat-cell *matCellDef="let element; let i = index">
+              <mat-icon matTooltip="Llamar!" matTooltipPosition="above" (click)="llamarTurno(element,i)" style="color:#ffee8c;cursor:pointer">notifications_active
+              </mat-icon>
+              <mat-icon matTooltip="Presente!" matTooltipPosition="above" (click)="presente(element)" style="color:#68dcff;cursor:pointer">how_to_reg
+              </mat-icon>
+              <mat-icon matTooltip="Eliminar!" matTooltipPosition="above" (click)="deleteFiles(element)" style="color:#ff6868;cursor:pointer">delete
+              </mat-icon>
+              <!-- <mat-icon *ngIf="element.documents.length > 0" matTooltip="Tiene Documentos Adjuntos!" matTooltipPosition="above" (click)="addMarginFile(element,i)" style="color:#5645eec5;cursor:pointer">attach_file
+                </mat-icon> -->
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;let i = index;"></mat-row>
+        </mat-table>
+      </div>
+    </mat-card>
+    <mat-card fxFlex.gt-sm="49" fxFlex.gt-xs="49" fxFlex="49" style="margin:0;">
+      <mat-card-content>
+        Turnos Tomados Por Mi
+      </mat-card-content>
+
+      <div style="width: 100%" class="example-container">
+        <mat-table #table style="max-height: 300px;" [dataSource]="dataSourceTomados">
+          <!-- Name Column -->
+          <ng-container matColumnDef="Turno">
+            <mat-header-cell *matHeaderCellDef> Nº Turno </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.turnId}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Hora">
+            <mat-header-cell *matHeaderCellDef> Hora </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.dateTime | date: 'HH:mm'}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Nombre">
+            <mat-header-cell *matHeaderCellDef> Apellido y Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.lastName + ', ' +
+              element.firstName}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Tipo">
+            <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.step}} </mat-cell>
+          </ng-container>
+          <!-- <ng-container matColumnDef="Numero">
+            <mat-header-cell *matHeaderCellDef> Nº de Trámite </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 10px"> {{element.numero}} </mat-cell>
+          </ng-container> -->
+          <mat-header-row *matHeaderRowDef="displayedColumnsTurnos"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsTurnos;let i = index;"></mat-row>
+        </mat-table>
+      </div>
+    </mat-card>
+  </div>
+  <!-- column -->
+</div>
+
+<div style="bottom:0;position:absolute; margin-top:20px;width:100%;" fxLayout="row" fxLayoutWrap="wrap">
+  <img style="height:100px" src="../../assets/images/Footer.png" alt="">
+</div>

@@ -1,0 +1,73 @@
+<div fxLayout="row" fxLayoutWrap="wrap">
+  <!-- column -->
+  <div id="logue" *ngIf="cipelogin" fxLayoutAlign="center end" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" style="margin-top: 20px;">
+    <img fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20" src="../../../assets/images/Logo.png" alt="">
+  </div>
+  <div id="logueo" fxFlexOffset="25" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" style="position: relative; top:10px; display: none">
+    <mat-card style="border-radius: 10px;">
+      <mat-card-header fxLayoutAlign="center end">
+        <mat-card-title fxLayoutAlign="center end">Identificarse</mat-card-title>
+        <mat-card-subtitle>Ingrese su Usuario y Contraseña</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form class="example-form">
+          <!-- <mat-form-field class="example-full-width">
+            <input matInput placeholder="usuario" name="user" [(ngModel)]="model.user" value="Sushi">
+          </mat-form-field> -->
+          <mat-form-field class="example-full-width">
+            <mat-select placeholder="Usuario" [(ngModel)]="currentOption" [ngModelOptions]="{standalone: true}"
+              required>
+              <mat-option *ngFor="let sec of options" [value]="sec.value">
+                {{sec.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <input matInput type="password" name="pass" [(ngModel)]="model.password" placeholder="contraseña" value="Sushi">
+          </mat-form-field>
+
+          <div class="help-block" style="color: red;" *ngIf="attempts >= 0">PIN Incorrecto, le quedan: {{attempts}}
+            intentos</div>
+
+          <div style="margin-top: 20px" fxLayoutAlign="space-evenly center">
+            <button (click)="goToEntry()" mat-raised-button color="warn">
+              Cancelar
+            </button>
+            <button (click)="readCipe()" mat-stroked-button color="primary">
+              Leer CIPE
+            </button>
+            <button (click)="validatePIN()" mat-raised-button color="primary">
+              Ingresar
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+    <div fxLayoutAlign="center end">
+      <button (click)="goToDrivers()" mat-stroked-button color="primary">Soporte Técnico (Complementos)</button>
+    </div>
+  </div>
+  <div id="logoCipe" style="
+  top:-80px;
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;">
+    <img style="width:350px; height: 140px;" src="../../../assets/images/Logo.png" alt="">
+
+    <button (click)="entry()" style="margin: 25px 0 0 0 ;" mat-stroked-button color="primary">
+      <<< Ingresar>>>
+    </button>
+
+  </div>
+  <!-- column -->
+</div>
+
+<div style="position:absolute;bottom:0;margin-top:20px;width:100%;" fxLayout="row" fxLayoutWrap="wrap">
+  <img style="height:100px" src="../../assets/images/Footer.png" alt="">
+</div>

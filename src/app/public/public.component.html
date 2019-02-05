@@ -1,0 +1,119 @@
+<!-- ============================================================== -->
+<!-- Simple four boxes Row -->
+<!-- ============================================================== -->
+<div style="width:100%;" fxLayout="row" fxLayoutWrap="wrap">
+  <img style="height:75px;width:100%;" src="../../assets/images/Encabezado.png" alt="">
+</div>
+<div *ngIf="office && office.officeId" fxLayout="column" fxLayoutWrap="wrap">
+  <!-- column -->
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-between start">
+    <mat-card fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <mat-card-content fxLayoutAlign="space-between end">
+        <span>
+          <b>Centro de Emisión: </b> {{office ? office.officeName : 'San Luis'}}
+        </span>
+        <span>
+          <b>Fecha y Hora :</b> {{fecha | date: 'dd/MM/yyy HH:mm:ss'}}
+        </span>
+      </mat-card-content>
+    </mat-card>
+    <mat-card fxFlex.gt-sm="46" fxFlex.gt-xs="46" fxFlex="46">
+      <mat-card-content>
+        Turnos en Espera
+      </mat-card-content>
+
+      <div style="width: 100%" class="example-container">
+        <mat-table #table [dataSource]="dataSourceAttention">
+          <!-- Name Column -->
+          <ng-container matColumnDef="Turno">
+            <mat-header-cell *matHeaderCellDef> Nº Turno </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.turnId}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Hora">
+            <mat-header-cell *matHeaderCellDef> Hora </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.dateTime | date: 'HH:mm'}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Nombre">
+            <mat-header-cell *matHeaderCellDef> Apellido y Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.lastName + ', ' +
+              element.firstName}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Tipo">
+            <mat-header-cell *matHeaderCellDef> Tipo de Trámite </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.recordType}} </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;let i = index;"></mat-row>
+        </mat-table>
+      </div>
+    </mat-card>
+    <mat-card fxFlex.gt-sm="46" fxFlex.gt-xs="46" fxFlex="46">
+      <mat-card-content>
+        Turnos en Box
+      </mat-card-content>
+
+      <div style="width: 100%" class="example-container">
+        <mat-table #table [dataSource]="dataSource">
+          <!-- Name Column -->
+          <ng-container matColumnDef="Turno">
+            <mat-header-cell *matHeaderCellDef> Nº Turno </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.turnId}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Hora">
+            <mat-header-cell *matHeaderCellDef> Hora </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.dateTime | date: 'HH:mm'}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Nombre">
+            <mat-header-cell *matHeaderCellDef> Apellido y Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.lastName + ', ' +
+              element.firstName}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Tipo">
+            <mat-header-cell *matHeaderCellDef>Estado </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 0px"> {{element.step}} </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;let i = index;"></mat-row>
+        </mat-table>
+      </div>
+    </mat-card>
+    <mat-card *ngIf="lastTurn.turnId" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <mat-card-content id="turnLast" style=" text-align: center;">
+        <h5>Asignación a Box</h5>
+        <span style="font-size: 45px;display:block; width:100%; margin:20px 0 10px 0;">
+          <b>{{lastTurn.turnId}}</b>
+        </span>
+        <span style="font-size: 40px;display:block; width:100%; margin:20px 0 10px 0;">
+          <b> {{lastTurn.lastName + ', ' + lastTurn.firstName}}</b>
+        </span>
+        <span style="font-size: 40px;display:block; width:100%; margin:20px 0 10px 0;">
+          <b>Box: </b> {{lastTurn.boxNumber}}
+        </span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!-- column -->
+</div>
+<div *ngIf="!office || !office.officeId" fxLayout="row" fxLayoutWrap="wrap">
+  <div fxFlexOffset="25" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-header fxLayoutAlign="center start">
+        <mat-card-title fxLayoutAlign="center end">Seleccione su Oficina</mat-card-title>
+        <!-- <mat-card-subtitle>Ingrese su Usuario y Contraseña</mat-card-subtitle> -->
+      </mat-card-header>
+      <mat-card-content>
+        <mat-nav-list>
+          <a mat-list-item *ngFor="let l of offices" (click)="selectSection(l)">{{l.officeName}}</a>
+          <!-- <a mat-list-item href="#" (click)="selectSection(3)"> Seccional 2 </a>
+          <a mat-list-item href="#" (click)="selectSection(3)"> Seccional 3</a> -->
+        </mat-nav-list>
+      </mat-card-content>
+
+    </mat-card>
+  </div>
+</div>
+<div style="bottom:0;position: absolute;margin-top:20px;width:100%;" fxLayout="row" fxLayoutWrap="wrap">
+  <img style="height:100px" src="../../assets/images/Footer.png" alt="">
+</div>

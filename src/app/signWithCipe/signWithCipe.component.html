@@ -1,0 +1,173 @@
+<!-- ============================================================== -->
+<!-- Simple four boxes Row -->
+<!-- ============================================================== -->
+<div style="width:100%;" fxLayout="row" fxLayoutWrap="wrap">
+  <img style="height:85px;width:100%;" src="../../assets/images/Encabezado.png" alt="">
+</div>
+<div fxLayout="row" fxLayoutWrap="wrap">
+  <!-- column -->
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <!-- <mat-card> -->
+    <!-- <mat-card-content> -->
+    <!-- Row -->
+    <!-- <h4>Nueva Solicitud de Firma</h4> -->
+
+    <!-- <re-captcha siteKey="6Leb62QUAAAAAEWxWIvpiPWNOZpRFVXuk83r5bhS"></re-captcha> -->
+    <!-- <button mat-stroked-button color="primary" (click)="isLinear = !isLinear" id="toggle-linear">
+          {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+        </button> -->
+
+    <div *ngIf="model.requestPerson && model.requestPerson.id" fxLayoutWrap="wrap" fxLayout="row" fxLayoutAlign="center center">
+      <mat-card fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70">
+        <div fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="40" fxLayoutAlign="space-evenly center">
+          <img style="height: 100px" *ngIf="model.requestPerson.photoBase64" [src]="'data:image;base64,' + model.requestPerson.photoBase64 | reportsSafeHtml" />
+        </div>
+        <div fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="40">
+          <div style="width:100%">
+            <b>Solicitante: </b>
+          </div>
+          <div style="width:100%">
+            {{model.requestPerson.lastName + ', ' + model.requestPerson.firstName}}
+          </div>
+          <div style="width:100%">
+            {{model.requestPerson.documentType + ': ' + model.requestPerson.docNumber}}
+          </div>
+          <div style="width:100%">
+            Fecha de Nacimiento: {{model.requestPerson.birthDayDate | date: 'dd/MM/yyyy'}}
+          </div>
+          <div style="width:100%">
+            {{model.requestPerson.sex == 'M' ? 'Masculino':'Femenino'}}
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <div *ngIf="model.requestPerson && model.requestPerson.id" fxLayoutWrap="wrap" fxLayout="row" fxLayoutAlign="center center">
+      <mat-expansion-panel fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70" [expanded]="true" style="margin-bottom: 10px">
+        <mat-expansion-panel-header class="panelHeader">
+          <strong>Firmante</strong>
+        </mat-expansion-panel-header>
+        <div fxLayoutWrap="wrap" fxLayout="row" fxLayoutAlign="space-between start">
+          <mat-form-field fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45">
+            <input matInput type="number" placeholder="Nº Documento" [(ngModel)]="model.docNumber" [ngModelOptions]="{standalone: true}"
+              required>
+          </mat-form-field>
+          <mat-radio-group fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25" fxLayoutAlign="space-evenly start"
+            [(ngModel)]="model.sex" #sexP [ngModelOptions]="{standalone: true}">
+            <mat-radio-button value="M">Masculino</mat-radio-button>
+            <mat-radio-button value="F">Femenino</mat-radio-button>
+          </mat-radio-group>
+          <button mat-stroked-button color="primary" (click)="findPerson()">Buscar Persona</button>
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="model.signersByRequest[0].signerPerson && model.signersByRequest[0].signerPerson.id"
+            fxLayoutWrap="wrap" fxLayout="row" fxLayoutAlign="center center">
+            <mat-card fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70">
+              <div fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="40" fxLayoutAlign="space-evenly center">
+                <img style="height: 100px" *ngIf="model.signersByRequest[0].signerPerson.photoBase64" [src]="'data:image;base64,' + model.signersByRequest[0].signerPerson.photoBase64 | reportsSafeHtml" />
+              </div>
+              <div fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="40">
+                <div style="width:100%">
+                  {{model.signersByRequest[0].signerPerson.lastName + ', ' +
+                  model.signersByRequest[0].signerPerson.firstName}}
+                </div>
+                <div style="width:100%">
+                  {{model.signersByRequest[0].signerPerson.documentType + ': ' +
+                  model.signersByRequest[0].signerPerson.docNumber}}
+                </div>
+                <div style="width:100%">
+                  Fecha de Nacimiento: {{model.signersByRequest[0].signerPerson.birthDayDate | date: 'dd/MM/yyyy'}}
+                </div>
+                <div style="width:100%">
+                  {{model.signersByRequest[0].signerPerson.sex == 'M' ? 'Masculino':'Femenino'}}
+                </div>
+              </div>
+            </mat-card>
+          </div>
+
+          <mat-form-field fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" style="margin-top: 10px; display: block;">
+            <textarea matInput placeholder="Observaciones" rows="5" maxlength="2000" [(ngModel)]="model.comments"
+              [ngModelOptions]="{standalone: true}" #observations></textarea>
+          </mat-form-field>
+          <div style="width:100%; text-align:right;">
+            <span *ngIf="model.comments">{{model.comments.length}}/2000</span>
+          </div>
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <input [id]="'file-input'" type="file" name="name" accept="application/pdf" multiple style="display: none;"
+              (change)="uploadFiles($event)" />
+            <button fxLayoutAlign="center center" mat-raised-button fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25"
+              color="primary" matTooltipPosition="above" matTooltip="Adjuntar Documento!" (click)="addFiles()">
+              <mat-icon style="color:white;">attach_file
+              </mat-icon>Adjuntar Archivo
+            </button>
+
+            <span id="filesText" fxFlex.gt-sm="65" fxFlex.gt-xs="65" fxFlex="65" style="font-size: 12px;"></span>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </div>
+    <div *ngIf="model.requestPerson && model.requestPerson.id && files.length > 0" fxLayoutWrap="wrap" fxLayout="row"
+      fxLayoutAlign="center center">
+      <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70" class="example-container">
+        <mat-table #table [dataSource]="dataSource">
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="Nombre">
+            <mat-header-cell *matHeaderCellDef> Archivo </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="margin-right: 10px"> {{element.name}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Size">
+            <mat-header-cell *matHeaderCellDef> Tamaño </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.size / (1024 * 1024) | number:'2.1-2'}} MB </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Accion">
+            <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
+            <mat-cell *matCellDef="let element; let i = index">
+              <!-- <mat-icon matTooltip="Editar!" matTooltipPosition="above" (click)="editMargin(element,i)" style="color:#72d487;cursor:pointer">edit
+                  </mat-icon> -->
+              <mat-icon matTooltip="Eliminar!" matTooltipPosition="above" (click)="deleteFile(element,i)" style="color:#ff6868;cursor:pointer">delete_forever
+              </mat-icon>
+              <!-- <mat-icon *ngIf="element.documents.length > 0" matTooltip="Tiene Documentos Adjuntos!" matTooltipPosition="above" (click)="addMarginFile(element,i)"
+                    style="color:#5645eec5;cursor:pointer">attach_file
+                  </mat-icon> -->
+              <!-- <mat-icon matTooltip="Adjuntar Documento!" matTooltipPosition="above" (click)="addMarginFile(element,i)" style="color:#5645eec5;cursor:pointer">attach_file
+                  </mat-icon>
+                  <sup style="font-size: 10px;font-weight: bold;">{{'('+element.fileCount+')'}}</sup>
+                  <input [id]="'file-input' + i" type="file" name="name" multiple style="display: none;" (change)="uploadFiles($event,element.id,i)"
+                  /> -->
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;let i = index;"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+    <div *ngIf="model.requestPerson && model.requestPerson.id" style="margin-top: 20px" fxLayoutWrap="wrap" fxLayout="row"
+      fxLayoutAlign="center center">
+      <mat-expansion-panel fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70" [expanded]="true" style="margin-bottom: 10px">
+        <mat-expansion-panel-header class="panelHeader">
+          <strong>Ingrese su Email</strong>
+        </mat-expansion-panel-header>
+        <div fxLayoutWrap="wrap" fxLayout="row" fxLayoutAlign="space-between start">
+          <mat-form-field fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45">
+            <input matInput type="email" placeholder="Email" [(ngModel)]="model.email" [ngModelOptions]="{standalone: true}"
+              required>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </div>
+
+    <div style="margin-top: 20px" fxLayoutAlign="space-evenly center">
+      <button mat-stroked-button color="warn" (click)="logout()">Salir</button>
+      <button mat-stroked-button color="primary" (click)="reset()">Limpiar Solicitud</button>
+      <button [disabled]="disabledRequest || !model.requestPerson.id || !model.signersByRequest[0].signerPerson || !model.signersByRequest[0].signerPerson.id || !model.email || !matchEmail()"
+        mat-stroked-button color="primary" (click)="requestSign()">Enviar Solicitud</button>
+    </div>
+    <!-- </mat-card-content> -->
+
+    <!-- </mat-card> -->
+
+  </div>
+  <!-- column -->
+</div>
+<div style="margin-top:20px;width:100%;" fxLayout="row" fxLayoutWrap="wrap">
+  <img style="height:100px" src="../../assets/images/Footer.png" alt="">
+</div>

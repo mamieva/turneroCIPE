@@ -1,0 +1,10 @@
+.dialog-list {
+  text-decoration: underline;
+  font-weight: bold;
+}
+.mat-column-Hora, .mat-column-Turno , .mat-column-action{
+  flex: 0 0 60px;
+}
+.mat-column-action{
+  flex: 0 0 80px;
+}

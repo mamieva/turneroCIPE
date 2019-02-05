@@ -1,0 +1,38 @@
+<div fxLayout="row" fxLayoutWrap="wrap">
+  <!-- column -->
+  <div fxFlexOffset="25" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card *ngIf="!office.officeId">
+      <mat-card-header fxLayoutAlign="center end">
+        <mat-card-title fxLayoutAlign="center end">Seleccione su Oficina</mat-card-title>
+        <!-- <mat-card-subtitle>Ingrese su Usuario y Contraseña</mat-card-subtitle> -->
+      </mat-card-header>
+      <mat-card-content>
+        <mat-nav-list>
+          <a mat-list-item *ngFor="let l of list" (click)="selectSection(l)">{{l.officeName}}</a>
+          <!-- <a mat-list-item href="#" (click)="selectSection(3)"> Seccional 2 </a>
+          <a mat-list-item href="#" (click)="selectSection(3)"> Seccional 3</a> -->
+        </mat-nav-list>
+      </mat-card-content>
+
+    </mat-card>
+    <mat-card *ngIf="office.officeId">
+      <mat-card-header fxLayoutAlign="center end">
+        <mat-card-title fxLayoutAlign="center end">Seleccione su Box</mat-card-title>
+        <!-- <mat-card-subtitle>Ingrese su Usuario y Contraseña</mat-card-subtitle> -->
+      </mat-card-header>
+      <mat-card-content>
+        <mat-nav-list>
+          <a mat-list-item *ngFor="let l of office.boxNumbers" (click)="selectBox(l)">{{l}}</a>
+          <!-- <a mat-list-item href="#" (click)="selectSection(3)"> Seccional 2 </a>
+          <a mat-list-item href="#" (click)="selectSection(3)"> Seccional 3</a> -->
+        </mat-nav-list>
+      </mat-card-content>
+
+    </mat-card>
+    
+    <div fxLayoutAlign="center center">
+      <button mat-stroked-button (click)="cancel()">Cancelar</button>
+    </div>
+  </div>
+  <!-- column -->
+</div>
